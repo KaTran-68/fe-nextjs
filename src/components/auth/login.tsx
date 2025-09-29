@@ -7,12 +7,14 @@ import { authenticate } from '@/utils/action';
 import { useRouter } from 'next/navigation';
 import ModalReactive from './modal.reactive';
 import { useState } from 'react';
+import ModalChangePassword from './modal.change.password';
 
 
 
 const Login = () => {
     const router = useRouter();
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isChangePassword, setIsChangePassword] = useState(false)
     const [userEmail, setUserEmail] = useState('')
 
     const onFinish = async (values: any) => {
@@ -87,9 +89,20 @@ const Login = () => {
     
                             <Form.Item
                             >
-                                <Button type="primary" htmlType="submit">
-                                    Login
-                                </Button>
+                                <div
+                                    style={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                    }}
+                                >
+                                    <Button type="primary" htmlType="submit">
+                                        Login
+                                    </Button>
+                                    <Button type="link" onClick={() => setIsChangePassword(true)}>
+                                        Quên mật khẩu?
+                                    </Button>
+                                    
+                                </div>
                             </Form.Item>
                         </Form>
                         <Link href={"/"}><ArrowLeftOutlined /> Quay lại trang chủ</Link>
@@ -104,6 +117,10 @@ const Login = () => {
                 isModalOpen={isModalOpen}
                 setIsModalOpen={setIsModalOpen}
                 userEmail={userEmail}
+            />
+            <ModalChangePassword 
+                isModalOpen={isChangePassword}
+                setIsModalOpen={setIsChangePassword}
             />
         </>
     )
