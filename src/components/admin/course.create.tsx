@@ -32,7 +32,6 @@ const CourseCreate =  (props: IProps) => {
     const { name, description, image } = values;
 
     if (!image || !image.originFileObj) {
-      console.error("No image selected");
       notification.error({ message: "Please select an image" });
       return;
     }
@@ -67,7 +66,7 @@ const CourseCreate =  (props: IProps) => {
         });
       }
     } catch (error: any) {
-      console.error(error);
+
       notification.error({
         message: "Create course error",
         description: error.message || "Something went wrong",

@@ -33,8 +33,8 @@ export async function authenticate(username: string, password: string) {
 
 export const handleCreateUserAction = async (data: {
   name: string;
-  description: string;
-  image: File;
+  email: string;
+  password: string;
 }) => {
   const session = await auth();
 
@@ -110,14 +110,13 @@ export const handleCreateCourseAction = async (data: any) => {
     body: {
       ...data,
     },
-  }); 
+  });
   revalidateTag("list-courses");
   return res;
 };
 
-export const handleUpdateCourseAction = async (id: string,data: any) => {
+export const handleUpdateCourseAction = async (id: string, data: any) => {
   const session = await auth();
-  console.log(data)
   const res = await sendRequest<IBackendRes<any>>({
     method: "PATCH",
     url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/courses/${id}`,
@@ -127,10 +126,10 @@ export const handleUpdateCourseAction = async (id: string,data: any) => {
     body: {
       ...data,
     },
-  }); 
+  });
   revalidateTag("list-courses");
   return res;
-}
+};
 
 export const handleDeleteCourseAction = async (id: string) => {
   const session = await auth();
@@ -143,5 +142,26 @@ export const handleDeleteCourseAction = async (id: string) => {
     },
   });
   revalidateTag("list-courses");
+  return res;
+};
+
+export const handleChangePasswordUser = async (
+  email: string,
+  password: string
+) => {
+  const session = await auth();
+
+  const res = await sendRequest<IBackendRes<any>>({
+    method: "POST",
+    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/users/changePassword`,
+    headers: {
+      Authorization: `Bearer ${session?.user?.access_token}`,
+    },
+    body: {
+      email,
+      password,
+    },
+  });
+
   return res;
 };

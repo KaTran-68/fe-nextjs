@@ -38,8 +38,7 @@ const Login = () => {
             router.push('/dashboard');
         }
 
-        // const data = await signIn("credentials", {email, password, redirect: false })
-        // console.log(data)
+
     };
 
     return (

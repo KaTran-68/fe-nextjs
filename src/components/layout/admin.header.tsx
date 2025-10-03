@@ -2,15 +2,17 @@
 import { AdminContext } from '@/library/admin.context';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { Button, Layout } from 'antd';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { DownOutlined, SmileOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Dropdown, Space } from 'antd';
 import { signOut } from 'next-auth/react';
+import ChangePassword from '../admin/user.changePassword';
 
 const AdminHeader = (props: any) => {
     // const { data: session, status} = useSession()
     const { session } = props;
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     const { Header } = Layout;
     const { collapseMenu, setCollapseMenu } = useContext(AdminContext)!;
@@ -18,11 +20,7 @@ const AdminHeader = (props: any) => {
     const items: MenuProps['items'] = [
         {
             key: '1',
-            label: (
-                <span>
-                    Settings
-                </span>
-            ),
+            label: <span style={{ display: 'block', width: '100%' }} onClick={() => setIsModalOpen(true)}>Change password</span>,
         },
         {
             key: '4',
@@ -66,6 +64,11 @@ const AdminHeader = (props: any) => {
                     </a>
                 </Dropdown>
             </Header>
+            <ChangePassword
+                isModalOpen={isModalOpen}
+                setIsModalOpen={setIsModalOpen}
+                userEmail={session?.user?.email}
+            />
         </>
     )
 }

@@ -22,6 +22,12 @@ const UserCreate = (props: IProps) => {
   const [form] = Form.useForm();
 
   const handleCloseModal = () => {
+    form.setFieldsValue({
+      email: '',
+      name: '',
+      password: '',
+      confirmPassword: ''
+    })
     setIsModalCreateOpen(false);
   };
 
@@ -41,7 +47,7 @@ const UserCreate = (props: IProps) => {
     });
     if (res?.data) {
       handleCloseModal();
-      message.success("Create user succeed");
+      message.success("Create user successfully!");
     } else {
       notification.error({
         message: "Create User error",

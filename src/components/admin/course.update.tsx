@@ -32,7 +32,6 @@ const CourseUpdate = (props: IProps) => {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    console.log(dataUpdate);
     form.setFieldsValue({
       name: dataUpdate.name,
       description: dataUpdate.description,
@@ -75,7 +74,6 @@ const CourseUpdate = (props: IProps) => {
         });
       }
     } catch (error: any) {
-      console.error(error);
       notification.error({
         message: "Update course error",
         description: error.message || "Something went wrong",
