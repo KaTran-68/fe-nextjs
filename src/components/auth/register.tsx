@@ -10,7 +10,14 @@ const Register = () => {
     const router = useRouter()
 
     const onFinish = async (values: any) => {
-        const { email, password, name } = values
+        const { email, password, name, confirmPassword } = values
+        if ( password !== confirmPassword) {
+            notification.error({
+                message: 'Register error',
+                description: 'Mật khẩu nhập bị sai!', 
+            })
+            return
+        }
         const res = await sendRequest<IBackendRes<any>>({
             method: 'POST',
             url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/register`,
@@ -68,6 +75,19 @@ const Register = () => {
                                 {
                                     required: true,
                                     message: 'Please input your password!',
+                                },
+                            ]}
+                        >
+                            <Input.Password />
+                        </Form.Item>
+                        
+                        <Form.Item
+                            label="Confirm Password"
+                            name="confirmPassword"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input your confirmPassword!',
                                 },
                             ]}
                         >

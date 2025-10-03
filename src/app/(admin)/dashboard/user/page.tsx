@@ -1,9 +1,39 @@
+import { auth } from "@/auth";
 import UserTable from "@/components/admin/user.table";
+import { sendRequest } from "@/utils/api";
 
-const ManageUserPage = () => {
+interface IProps {
+    params: { id: string }
+    searchParams: { [key: string]: string | string[] | undefined }
+}
+const ManageUserPage = async (props: IProps) => {
+
+    const current = props?.searchParams?.current ?? 1;
+    const pageSize = props?.searchParams?.pageSize ?? 10;
+
+    const session = await auth();
+    
+    const res = await sendRequest<IBackendRes<any>>({
+        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/users`,
+        method: "GET",
+        queryParams: {
+            current,
+            pageSize
+        },
+        headers: {
+            Authorization: `Bearer ${session?.user?.access_token}`,
+        },
+        nextOption: {
+            next: { tags: ['list-users'] }
+        }
+    })
+
     return (
         <div>
-            <UserTable />
+            <UserTable 
+                meta={res.data.meta}
+                usersData={res.data.results}
+            />
         </div>
     )
 }

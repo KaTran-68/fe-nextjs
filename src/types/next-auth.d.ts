@@ -7,7 +7,7 @@ interface IUser {
     email: string;
     isVerify: boolean,
     type: string;
-    role: string;
+    admin: boolean;
 }
 declare module "next-auth/jwt" {
     /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
