@@ -1,23 +1,23 @@
 import { auth } from "@/auth";
 import BlogCard from "@/components/admin/blog.card";
-import { handleFetchAllBlogs } from "@/utils/action";
-import { sendRequest } from "@/utils/api";
+import { handleFetchMyBlogPublished } from "@/utils/action";
 
 interface IProps {
   params: { id: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }
 
-const BlogPage = async (props: IProps) => {
+const MyPublishedBlog = async (props: IProps) => {
+  const session = await auth();
   const current = props?.searchParams?.current ?? 1;
   const pageSize = props?.searchParams?.pageSize ?? 10;
 
-
-  const res = await handleFetchAllBlogs({
+  const res = await handleFetchMyBlogPublished({
+    authorId: session?.user?._id,
     current,
     pageSize,
-  })
-
+  });
+  console.log(res)
   return (
     <div>
       <BlogCard meta={res.data.meta} blogsData={res.data.results} />
@@ -25,4 +25,4 @@ const BlogPage = async (props: IProps) => {
   );
 };
 
-export default BlogPage;
+export default MyPublishedBlog;

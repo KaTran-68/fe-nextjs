@@ -168,6 +168,7 @@ export const handleChangePasswordUser = async (
 
 export const handleCreateBlogAction = async (data: {
   author: string,
+  authorId: string,
   title: string,
   content: string,
 }) => {
@@ -186,3 +187,52 @@ export const handleCreateBlogAction = async (data: {
   revalidateTag("list-blogs");
   return res;
 }
+
+export const handleFetchAllBlogs= async (data: {
+  current: string | number | string[],
+  pageSize: string | number | string[],
+}) => {
+  const session = await auth();
+
+  const res = await sendRequest<IBackendRes<any>>({
+    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/blogs`,
+    method: "GET",
+    queryParams: {
+      ...data,
+    },
+    headers: {
+      Authorization: `Bearer ${session?.user?.access_token}`,
+    },
+    nextOption: {
+      next: { tags: ["list-blogs"] },
+    },
+  });
+  return res;
+};
+
+export const handleFetchMyBlogPublished = async (data: {
+  authorId: string| undefined,
+  current: string | number | string[],
+  pageSize: string | number | string[],
+}) => {
+  const session = await auth();
+  const { authorId, current, pageSize } = data;
+  const res = await sendRequest<IBackendRes<any>>({
+    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/blogs/myblog/published`,
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${session?.user?.access_token}`,
+    },
+    queryParams: {
+      current,
+      pageSize,
+    },
+    body: {
+      authorId,
+    },
+    nextOption: {
+      next: { tags: ["list-myblogpublished"] },
+    },
+  });
+  return res;
+};

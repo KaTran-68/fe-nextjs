@@ -6,7 +6,7 @@ const CreateBlogPage = async () => {
     const session = await auth();
 
     return (
-        <CreateBlog author={session?.user?.name}/>
+        <CreateBlog author={session?.user?.name} authorId={session?.user?._id}/>
     )
 }
 

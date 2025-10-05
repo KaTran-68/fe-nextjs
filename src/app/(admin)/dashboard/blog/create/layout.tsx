@@ -5,7 +5,7 @@ export default function CreateBlogLayout({
 }) {
   return (
     <div className="p-6 bg-gray-100">
-      <h1 className="text-xl font-bold">Create Blog Layout</h1>
+      <h1 className="text-xl font-bold">Viết blog mới</h1>
       <div>{children}</div>
     </div>
   );

@@ -4,7 +4,7 @@ import { Button, Form, Input, message, notification } from "antd";
 import { useRouter } from "next/navigation";
 
 const CreateBlog = (props: any) => {
-  const { author } = props
+  const { author, authorId } = props
   const [form] = Form.useForm();
   const router = useRouter()
 
@@ -13,6 +13,7 @@ const CreateBlog = (props: any) => {
   
     const res = await handleCreateBlogAction({
       author,
+      authorId,
       title,
       content,
     });

@@ -32,6 +32,17 @@ const AdminHeader = (props: any) => {
     {
       key: "2",
       label: (
+        <Link
+          href={"/dashboard/blog/myblog"}
+          style={{ display: "block", width: "100%" }}
+        >
+          Blogs của tôi
+        </Link>
+      ),
+    },
+    {
+      key: "3",
+      label: (
         <span
           style={{ display: "block", width: "100%" }}
           onClick={() => setIsModalOpen(true)}
