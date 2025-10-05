@@ -1,14 +1,38 @@
 "use client";
-import { Button, Form, Input } from "antd";
+import { handleCreateBlogAction } from "@/utils/action";
+import { Button, Form, Input, message, notification } from "antd";
+import { useRouter } from "next/navigation";
 
-const CreateBlog = () => {
+const CreateBlog = (props: any) => {
+  const { author } = props
   const [form] = Form.useForm();
+  const router = useRouter()
+
+  const onFinish = async (values: any) => {
+    const { title, content } = values;
+  
+    const res = await handleCreateBlogAction({
+      author,
+      title,
+      content,
+    });
+    if (res?.data) {
+      message.success("Create blog successfully! Hãy đợi admin duyệt bài của bạn!");
+      router.push('/dashboard/blog')
+    } else {
+      notification.error({
+        message: "Create Blog error",
+        description: res?.message,
+      });
+    }
+  };
   return (
     <div
       style={{
         display: "flex",
         justifyContent: "center",
-        minHeight: "100vh", // full màn hình
+        minHeight: "100vh",
+        marginTop: '20px',
       }}
     >
       <Form
@@ -16,9 +40,9 @@ const CreateBlog = () => {
         name="basic"
         layout="vertical"
         style={{ width: "70%" }}
-        onFinish={() => ""}
+        onFinish={onFinish}
       >
-        {/* Username */}
+
         <Form.Item
           label="Title"
           name="title"
@@ -35,7 +59,6 @@ const CreateBlog = () => {
           <Input.TextArea rows={6} placeholder="Nhập nội dung bài viết..." />
         </Form.Item>
 
-        {/* Submit button */}
         <Form.Item>
           <Button type="primary" htmlType="submit">
             Submit

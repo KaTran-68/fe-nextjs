@@ -165,3 +165,24 @@ export const handleChangePasswordUser = async (
 
   return res;
 };
+
+export const handleCreateBlogAction = async (data: {
+  author: string,
+  title: string,
+  content: string,
+}) => {
+  const session = await auth()
+
+  const res = await sendRequest<IBackendRes<any>>({
+    method: 'POST',
+    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/blogs`,
+    headers: {
+      Authorization: `Bearer ${session?.user?.access_token}`,
+    },
+    body: {
+      ...data,
+    }
+  })
+  revalidateTag("list-blogs");
+  return res;
+}

@@ -3,7 +3,7 @@ import { Button, Card, Col, Popconfirm, Row } from "antd";
 interface IProps {
   courseData: any;
   access_token: any;
-  isAdmin: boolean;
+  isAdmin: boolean | undefined;
 }
 import Image from "next/image";
 import CourseCreate from "./course.create";

@@ -1,9 +1,12 @@
+import { auth } from "@/auth";
 import BlogCard from "@/components/admin/blog.card";
 import CreateBlog from "@/components/admin/blog.create";
 
-const CreateBlogPage = () => {
+const CreateBlogPage = async () => {
+    const session = await auth();
+
     return (
-        <CreateBlog />
+        <CreateBlog author={session?.user?.name}/>
     )
 }
 
