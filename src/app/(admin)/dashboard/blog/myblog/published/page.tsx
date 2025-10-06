@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import BlogCard from "@/components/admin/blog.card";
-import { handleFetchMyBlogPublished } from "@/utils/action";
+import { handleFetchMyBlog } from "@/utils/action";
 
 interface IProps {
   params: { id: string };
@@ -12,15 +12,16 @@ const MyPublishedBlog = async (props: IProps) => {
   const current = props?.searchParams?.current ?? 1;
   const pageSize = props?.searchParams?.pageSize ?? 10;
 
-  const res = await handleFetchMyBlogPublished({
+  const res = await handleFetchMyBlog({
     authorId: session?.user?._id,
     current,
     pageSize,
+    isDraft: false,
   });
-  console.log(res)
+
   return (
     <div>
-      <BlogCard meta={res.data.meta} blogsData={res.data.results} />
+      <BlogCard isApproved={true} isMyBlog={true} meta={res.data.meta} blogsData={res.data.results} />
     </div>
   );
 };

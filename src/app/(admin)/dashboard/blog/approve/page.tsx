@@ -8,23 +8,22 @@ interface IProps {
   searchParams: { [key: string]: string | string[] | undefined };
 }
 
-const BlogPage = async (props: IProps) => {
+const ApproveBlogPage = async (props: IProps) => {
   const current = props?.searchParams?.current ?? 1;
   const pageSize = props?.searchParams?.pageSize ?? 10;
-  const session = await auth();
-  const isAdmin = session?.user?.admin;
+
 
   const res = await handleFetchAllBlogs({
     current,
     pageSize,
-    isApproved: true,
+    isApproved: false,
   })
 
   return (
     <div>
-      <BlogCard isAdmin={isAdmin} isApproved={true} isMyBlog={false} meta={res.data.meta} blogsData={res.data.results} />
+      <BlogCard isApproved={false} isMyBlog={false} meta={res.data.meta} blogsData={res.data.results} />
     </div>
   );
 };
 
-export default BlogPage;
+export default ApproveBlogPage;
