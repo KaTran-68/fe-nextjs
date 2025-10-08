@@ -23,7 +23,7 @@ const BlogCard = (props: IProps) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const router = useRouter();
 
   const handlePageChange = (page: number, pageSize?: number) => {
@@ -34,7 +34,7 @@ const BlogCard = (props: IProps) => {
   };
 
   const handleCardClick = (blog: any) => {
-    dispatch(setSelectedBlog(blog));
+    // dispatch(setSelectedBlog(blog));
     if (!isApproved && isMyBlog) {
       router.push("/dashboard/blog/create");
     }

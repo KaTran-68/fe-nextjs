@@ -1,9 +1,10 @@
 "use client";
 import { clearSelectedBlog } from "@/library/redux/blogSlice";
 import { RootState } from "@/library/redux/store";
-import { handleApproveBlog } from "@/utils/action";
+import { handleApproveBlog, handleGetBlogBySlug } from "@/utils/action";
 import { Button, message, notification } from "antd";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 interface IProps {
@@ -12,12 +13,25 @@ interface IProps {
 
 const BlogView = (props: IProps) => {
   const { isApprovePage } = props;
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const router = useRouter()
 
-  const selectedBlog = useSelector(
-    (state: RootState) => state.blog.selectedBlog
-  );
+  // const selectedBlog = useSelector(
+  //   (state: RootState) => state.blog.selectedBlog
+  // );
+
+  const params = useParams()
+  const { slug } = params;
+  const [selectedBlog, setSelectedBlog] = useState<any>({});
+
+  useEffect(() => {
+    if (slug) {
+      handleGetBlogBySlug(slug).then((res) => {
+        if (res?.data) setSelectedBlog(res.data);
+        else notification.error({ message: "Không tìm thấy bài viết" });
+      });
+    }
+  }, [slug]);
 
   const onApproveBlog = async () => {
     if (selectedBlog) {
@@ -31,7 +45,6 @@ const BlogView = (props: IProps) => {
           description: res?.message,
         });
       }
-      dispatch(clearSelectedBlog());
       return;
     }
     else{

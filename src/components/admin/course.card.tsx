@@ -19,6 +19,9 @@ import {
   handleDeleteCourseAction,
   handleDeleteUserAction,
 } from "@/utils/action";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { setSelectedCourse } from "@/library/redux/courseSlice";
 const { Meta } = Card;
 
 const CourseCard = (props: IProps) => {
@@ -26,7 +29,13 @@ const CourseCard = (props: IProps) => {
   const [isModalCreateOpen, setIsModalCreateOpen] = useState(false);
   const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
   const [dataUpdate, setDataUpdate] = useState({});
+  const router = useRouter()
+  // const dispatch = useDispatch()
 
+  const handleCardClick = (course: any) => {
+    // dispatch(setSelectedCourse(course))
+    router.push(`/dashboard/course/${course.slug}`)
+  }
   return (
     <>
       <div
@@ -55,6 +64,7 @@ const CourseCard = (props: IProps) => {
                   display: "flex",
                   flexDirection: "column",
                 }}
+                onClick={() => handleCardClick(course)}
                 cover={
                   <Image
                     alt={course.name}

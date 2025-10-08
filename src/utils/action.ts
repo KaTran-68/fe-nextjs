@@ -283,3 +283,27 @@ export const handleApproveBlog = async (id: string) => {
   revalidateTag("list-blogs");
   return res;
 };
+
+export const handleGetBlogBySlug = async (slug: any) => {
+  const session = await auth();
+  const res = await sendRequest<IBackendRes<any>>({
+    method: "GET",
+    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/blogs/${slug}`,
+    headers: {
+      Authorization: `Bearer ${session?.user?.access_token}`,
+    },
+  });
+  return res;
+}
+
+export const handleGetCourseBySlug = async (slug: any) => {
+  const session = await auth();
+  const res = await sendRequest<IBackendRes<any>>({
+    method: "GET",
+    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/courses/${slug}`,
+    headers: {
+      Authorization: `Bearer ${session?.user?.access_token}`,
+    },
+  });
+  return res;
+}
