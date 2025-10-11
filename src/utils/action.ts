@@ -304,6 +304,41 @@ export const handleGetCourseBySlug = async (slug: any) => {
     headers: {
       Authorization: `Bearer ${session?.user?.access_token}`,
     },
+    nextOption: {
+      next: { tags: ["course-view"] },
+    },
   });
+  return res;
+}
+
+export const handleAddOutcome = async (id: string, outcome: string) => {
+  const session = await auth()
+  const res = await sendRequest<IBackendRes<any>>({
+    method: "PATCH",
+    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/courses/outcomes/${id}`,
+    headers: {
+      Authorization: `Bearer ${session?.user?.access_token}`,
+    },
+    body: {
+      newItem: outcome,
+    }
+  });
+  revalidateTag("course-view");
+  return res;
+}
+
+export const handleDeleteOutcome = async (id: string, outcome: string) => {
+  const session = await auth()
+  const res = await sendRequest<IBackendRes<any>>({
+    method: "DELETE",
+    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/courses/outcomes/${id}`,
+    headers: {
+      Authorization: `Bearer ${session?.user?.access_token}`,
+    },
+    body: {
+      outcome: outcome,
+    }
+  });
+  revalidateTag("course-view");
   return res;
 }
